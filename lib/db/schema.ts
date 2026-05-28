@@ -39,8 +39,7 @@ export const warehouses = pgTable(
     name: varchar("name", { length: 100 }).notNull(),
     pincode: varchar("pincode", { length: 6 }).notNull(),
     updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
-  createdAT: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
-
+    createdAT: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
   },
   (table) => {
     return {
@@ -48,3 +47,21 @@ export const warehouses = pgTable(
     };
   },
 );
+
+export const orders = pgTable("orders", {
+  id: serial("id").primaryKey(),
+});
+
+export const deliveryPersons = pgTable("delivery_persons", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 100 }).notNull(),
+  phone: varchar("phone", { length: 13 }).notNull(),
+  warehouseId: integer("warehouse_id")
+    .references(() => warehouses.id, { onDelete: "cascade" })
+    .notNull(),
+  orderId: integer("order_id").references(() => orders.id, {
+    onDelete: "set null",
+  }),
+  updatedAt: timestamp("updated_at").default(sql`CURRENT_TIMESTAMP`),
+  createdAT: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
+});
