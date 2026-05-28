@@ -1,6 +1,7 @@
 import { db } from "@/lib/db/db";
-import { inventories } from "@/lib/db/schema";
+import { inventories, products, warehouses } from "@/lib/db/schema";
 import { InventorySchema } from "@/lib/validators/InventorySchema";
+import { desc, eq } from "drizzle-orm";
 
 export async function POST(request: Request) {
   const data = await request.json();
@@ -29,4 +30,29 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET(request: Request) {}
+export async function GET() {
+  try {
+    const allInventories = await db
+      .select({
+        id: inventories.id,
+        sku: inventories.sku,
+        warehouse: warehouses.name,
+        product: products.name,
+      })
+      .from(inventories)
+      .leftJoin(warehouses, eq(inventories.warehouseId, warehouses.id))
+      .leftJoin(products, eq(inventories.productId, products.id))
+      .orderBy(desc(inventories.id));
+
+    return Response.json(
+      { message: "get all inventories successfully", allInventories },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.log("failed to get all inventories", error);
+    return Response.json(
+      { message: "failed to get all inventories" },
+      { status: 500 },
+    );
+  }
+}
