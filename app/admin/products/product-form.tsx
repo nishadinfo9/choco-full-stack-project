@@ -12,13 +12,16 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { InputGroup, InputGroupTextarea } from "@/components/ui/input-group";
+import { Loader2 } from "lucide-react";
 
 export type FormValue = z.input<typeof ProductSchema>;
 
 const ProductForm = ({
   onSubmit,
+  disabled,
 }: {
   onSubmit: (formValue: FormValue) => void;
+  disabled: boolean;
 }) => {
   const { register, handleSubmit, control } = useForm<
     z.infer<typeof ProductSchema>
@@ -117,8 +120,13 @@ const ProductForm = ({
           )}
         />
 
-        <Button size={"lg"} type="submit" form="form-rhf-demo">
-          Create
+        <Button
+          size={"lg"}
+          type="submit"
+          form="form-rhf-demo"
+          disabled={disabled}
+        >
+          {disabled ? <Loader2 className="size-4 animate-spin " /> : "Create"}
         </Button>
       </FieldGroup>
     </form>

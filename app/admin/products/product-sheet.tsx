@@ -15,7 +15,7 @@ export function ProductSheet() {
 
   const { isOpen, onClose } = useNewProduct();
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationKey: ["create-product"],
     mutationFn: async (data: FormData) => createProduct(data),
     onSuccess: () => {
@@ -45,7 +45,7 @@ export function ProductSheet() {
       <SheetContent>
         <SheetHeader>
           <SheetTitle className="text-2xl">Create Product</SheetTitle>
-          <ProductForm onSubmit={onSubmit} />
+          <ProductForm onSubmit={onSubmit} disabled={isPending} />
         </SheetHeader>
       </SheetContent>
     </Sheet>
