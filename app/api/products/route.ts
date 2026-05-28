@@ -66,10 +66,7 @@ export async function GET() {
       .from(products)
       .orderBy(desc(products.id));
 
-    return Response.json(
-      { message: "product found successfully", allProducts },
-      { status: 200 },
-    );
+    return Response.json(allProducts, { status: 200 });
   } catch (error) {
     console.log("falied to fetch products", error);
     return Response.json(
