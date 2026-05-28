@@ -10,12 +10,16 @@ export async function POST(request: Request) {
   //validate if user acceced for create product
   const formData = await request.formData();
 
+  console.log("formData", formData);
+
   const validation = ProductSchema.safeParse({
     name: formData.get("name"),
     description: formData.get("description"),
-    price: formData.get("price"),
+    price: Number(formData.get("price")),
     image: formData.get("image"),
   });
+
+  console.log("validation", validation);
 
   if (!validation.success) {
     return Response.json(

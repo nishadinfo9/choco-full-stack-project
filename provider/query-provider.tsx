@@ -9,7 +9,7 @@ const makeQueryClient = () => {
 
 const getQueryClient = () => {
   //on server
-  if (typeof window === undefined) {
+  if (typeof window === "undefined") {
     return makeQueryClient();
   } else {
     //on client
