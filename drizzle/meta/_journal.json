@@ -15,6 +15,20 @@
       "when": 1779940500711,
       "tag": "0001_tiresome_maximus",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1779948935153,
+      "tag": "0002_small_patriot",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1779949128072,
+      "tag": "0003_yummy_goblin_queen",
+      "breakpoints": true
     }
   ]
 }
