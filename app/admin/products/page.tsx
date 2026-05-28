@@ -8,6 +8,7 @@ import { getProducts } from "@/http/api";
 import { Product } from "@/types/type";
 import { ProductSheet } from "./product-sheet";
 import { useNewProduct } from "@/store/product/product.store";
+import { Loader2 } from "lucide-react";
 
 const ProductPage = () => {
   const { onOpen } = useNewProduct();
@@ -26,7 +27,13 @@ const ProductPage = () => {
         </Button>
         <ProductSheet />
       </div>
-      <DataTable columns={columns} data={products || []} />
+      {isLoading ? (
+        <div className="flex items-center justify-center">
+          <Loader2 className="size-8 animate-spin" />
+        </div>
+      ) : (
+        <DataTable columns={columns} data={products || []} />
+      )}
     </>
   );
 };
