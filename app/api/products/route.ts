@@ -4,8 +4,10 @@ import { ProductSchema } from "@/lib/validators/ProductSchema";
 import { writeFile } from "node:fs/promises";
 import path from "node:path";
 import fs from "fs";
+import { desc } from "drizzle-orm";
 
 export async function POST(request: Request) {
+  //validate if user acceced for create product
   const formData = await request.formData();
 
   const validation = ProductSchema.safeParse({
@@ -55,4 +57,24 @@ export async function POST(request: Request) {
     { message: "product created successfully" },
     { status: 201 },
   );
+}
+
+export async function GET() {
+  try {
+    const allProducts = await db
+      .select()
+      .from(products)
+      .orderBy(desc(products.id));
+
+    return Response.json(
+      { message: "product found successfully", allProducts },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.log("falied to fetch products", error);
+    return Response.json(
+      { message: "falied to fetch products" },
+      { status: 500 },
+    );
+  }
 }
