@@ -30,3 +30,20 @@ export async function POST(request: Request) {
     { status: 200 },
   );
 }
+
+export async function GET() {
+  try {
+    const allWarehouses = await db.select().from(warehouses);
+
+    return Response.json(
+      { message: "get allWarehouses successfully", allWarehouses },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.log("failed to fetch allWearhouses", error);
+    return Response.json(
+      { message: "failed to fetch allWearhouses" },
+      { status: 500 },
+    );
+  }
+}
