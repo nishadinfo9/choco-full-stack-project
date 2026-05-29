@@ -4,6 +4,9 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { QueryProvider } from "@/provider/query-provider";
 import { Toaster } from "sonner";
+import AuthProvider from "@/provider/AuthProvider";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth/authOptions";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -20,6 +23,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const session = getServerSession(authOptions)
+
   return (
     <html
       lang="en"
@@ -32,7 +38,10 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <QueryProvider>
           <Toaster />
+          <AuthProvider session={session}>
+
           {children}
+          </AuthProvider>
         </QueryProvider>
       </body>
     </html>

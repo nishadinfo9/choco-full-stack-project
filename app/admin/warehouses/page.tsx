@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { warehouseColumns } from "./_components/our-colums";
+import { warehouseColumns } from "./our-colums";
 import { useQuery } from "@tanstack/react-query";
 import { getWarehouses } from "@/http/api";
 import { Warehouse } from "@/types/type";

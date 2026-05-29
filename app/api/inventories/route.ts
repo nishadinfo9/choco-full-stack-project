@@ -16,6 +16,20 @@ export async function POST(request: Request) {
   }
 
   try {
+    // Check existing SKU
+    const existSku = await db
+      .select()
+      .from(inventories)
+      .where(eq(inventories.sku, validation.data.sku));
+
+    if (existSku.length > 0) {
+      return Response.json(
+        { message: '"SKU already exists"' },
+        { status: 409 },
+      );
+    }
+
+    // Create inventory
     await db.insert(inventories).values(validation.data);
     return Response.json(
       { message: "inventories created successfully" },
@@ -44,10 +58,7 @@ export async function GET() {
       .leftJoin(products, eq(inventories.productId, products.id))
       .orderBy(desc(inventories.id));
 
-    return Response.json(
-      { message: "get all inventories successfully", allInventories },
-      { status: 200 },
-    );
+    return Response.json(allInventories, { status: 200 });
   } catch (error) {
     console.log("failed to get all inventories", error);
     return Response.json(

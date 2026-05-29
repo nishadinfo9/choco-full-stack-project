@@ -8,7 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createWarehouse } from "@/http/api";
 import { toast } from "sonner";
 import { Warehouse } from "@/types/type";
-import WarehouseForm from "./warehouse-form";
+import WarehouseForm from "../warehouse-form";
 import { useNewWarehouse } from "@/store/warehouse/warehouse.store";
 
 export function WarehouseSheet() {

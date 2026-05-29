@@ -1,17 +1,15 @@
 import { create } from "zustand";
 
-type DeliveryPersonState = {
+type InventoryState = {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
 };
 
-export const useNewDeliveryPerson = create<DeliveryPersonState>((set) => {
+export const useNewInventory = create<InventoryState>((set) => {
   return {
     isOpen: false,
     onOpen: () => set({ isOpen: true }),
     onClose: () => set({ isOpen: false }),
   };
 });
-
-

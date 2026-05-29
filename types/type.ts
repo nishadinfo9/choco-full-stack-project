@@ -2,7 +2,7 @@ export interface Product {
   id?: number;
   name: string;
   image: string;
-  price: string;
+  price: number;
 }
 
 export interface Warehouse {
@@ -17,4 +17,11 @@ export interface DeliveryPerson {
   phone: string;
   warehouseId: number;
   orderId?: number;
+}
+
+export interface Inventory {
+  id?: number;
+  sku: string;
+  warehouseId: number;
+  productId: number;
 }
