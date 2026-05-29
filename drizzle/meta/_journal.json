@@ -8,6 +8,13 @@
       "when": 1779963335017,
       "tag": "0000_dry_wong",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1780079775317,
+      "tag": "0001_uneven_giant_man",
+      "breakpoints": true
     }
   ]
 }
