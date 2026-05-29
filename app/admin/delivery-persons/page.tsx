@@ -1,13 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { DeliveryPersonColumns } from "./our-colums";
+import { DeliveryPersonColumns } from "./_components/our-colums";
 import { useQuery } from "@tanstack/react-query";
 import { getDeliveryPersons } from "@/http/api";
 import { DeliveryPerson } from "@/types/type";
 import { Loader2 } from "lucide-react";
 import { DataTable } from "../_components/data-table";
-import { DeliveryPersonSheet } from "./deliveryPerson-sheet";
+import { DeliveryPersonSheet } from "./_components/deliveryPerson-sheet";
 import { useNewDeliveryPerson } from "@/store/delivery-person/delivery-person.store";
 
 const DeliveryParsons = () => {

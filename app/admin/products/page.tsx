@@ -1,11 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { columns } from "./our-colums";
+import { columns } from "./_components/our-colums";
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "@/http/api";
 import { Product } from "@/types/type";
-import { ProductSheet } from "./product-sheet";
+import { ProductSheet } from "./_components/product-sheet";
 import { useNewProduct } from "@/store/product/product.store";
 import { Loader2 } from "lucide-react";
 import { DataTable } from "../_components/data-table";

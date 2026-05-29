@@ -1,13 +1,13 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { warehouseColumns } from "./our-colums";
+import { warehouseColumns } from "./_components/our-colums";
 import { useQuery } from "@tanstack/react-query";
 import { getWarehouses } from "@/http/api";
 import { Warehouse } from "@/types/type";
 import { Loader2 } from "lucide-react";
 import { DataTable } from "../_components/data-table";
-import { WarehouseSheet } from "./warehouse-sheet";
+import { WarehouseSheet } from "./_components/warehouse-sheet";
 import { useNewWarehouse } from "@/store/warehouse/warehouse.store";
 
 const WareHouses = () => {
