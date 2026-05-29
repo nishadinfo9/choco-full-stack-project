@@ -5,6 +5,7 @@ import Container from "./Container";
 import ProductCard from "./ProductCard";
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "@/http/api";
+import ProductCardSkeleton from "./ProductCardSkeleton";
 
 // const products :Product[] = [
 //   {
@@ -40,6 +41,7 @@ export default function Products() {
     staleTime: 10 * 1000,
   });
 
+
   return (
     <section className="py-24 bg-[#FAF7F2]">
       <Container>
@@ -61,9 +63,16 @@ export default function Products() {
 
         {/* Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products && products?.map((product: Product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+           {isLoading &&
+            Array.from({ length: 8 }).map((_, i) => (
+              <ProductCardSkeleton key={i} />
+            ))}
+
+          {/* Data */}
+          {!isLoading &&
+            products?.map((product: Product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
         </div>
       </Container>
     </section>

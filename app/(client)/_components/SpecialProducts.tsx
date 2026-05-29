@@ -1,13 +1,11 @@
 import { Product } from "@/types/type";
 import Container from "./Container";
 import ProductCard from "./ProductCard";
-import { Separator } from "@/components/ui/separator";
-
 
 const products: Product[] = [
   {
     id: 1,
-    name: "Dark Truffle Delight",
+    name: "Dark Truffle Delight", 
     image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c",
     price: 12,
   },
@@ -29,15 +27,11 @@ export default function SpecialProducts() {
   return (
     <section className="py-24 bg-white">
       <Container>
-
         <div className="mb-10 text-center">
-           <h2 className="flex items-center justify-center gap-5 text-3xl font-semibold text-[#2B1D16]">
-                <Separator className="h-0.5 w-30 bg-amber-900"/>
-                Chocolates
-                <Separator className="h-0.5 w-30 bg-amber-900"/>
-        
-            </h2>
-        
+          <h2 className="flex items-center justify-center gap-5 text-3xl font-semibold text-[#2B1D16]">
+            Chocolates
+          </h2>
+
           <p className="text-[#2B1D16]/60 mt-2">
             Crafted for special moments and premium taste
           </p>
@@ -48,7 +42,6 @@ export default function SpecialProducts() {
             <ProductCard key={product.id} product={product} />
           ))}
         </div>
-
       </Container>
     </section>
   );
