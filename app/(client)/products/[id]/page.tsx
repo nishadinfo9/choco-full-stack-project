@@ -1,19 +1,38 @@
 "use client";
 
+import z from "zod";
+import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
-import { Product } from "@/types/type";
 import { getSingleProduct } from "@/http/api";
 import { useParams } from "next/navigation";
-import ProductDetailsSkeleton from "./_components/ProductDetailsSkeleton";
+const ProductDetailsSkeleton = dynamic(()=> import('./_components/ProductDetailsSkeleton',))
 import Container from "@/app/(client)/_components/Container";
-import Image from "next/image";
-import {  CardContent } from "@/components/ui/card";
-import OrderForm from "./_components/OrderForm";
+import { CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { OrderSchema } from "@/lib/validators/OrderSchema";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Order, Product } from "@/types/type";
+import { Loader2 } from "lucide-react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { Textarea } from "@/components/ui/textarea";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useMemo } from "react";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field";
+import dynamic from "next/dynamic";
 
 export default function SingleProduct() {
   const params = useParams<{ id: string }>();
-
 
   const {
     data: product,
@@ -24,8 +43,54 @@ export default function SingleProduct() {
     queryFn: () => getSingleProduct(params.id),
   });
 
-  if (isLoading) return <ProductDetailsSkeleton />;
+  const queryClient = useQueryClient();
+  const { data: session } = useSession();
+  const pathname = usePathname();
 
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["create-orders"],
+    mutationFn: () => createOrder(),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["orders"],
+      });
+      toast("order created successfully", {
+        position: "bottom-right",
+      });
+    },
+
+    onError: () => {
+      toast("failed to create order", { position: "bottom-right" });
+    },
+  });
+
+  const { handleSubmit, control, watch } = useForm<z.infer<typeof OrderSchema>>(
+    {
+      resolver: zodResolver(OrderSchema),
+      defaultValues: {
+        pincode: "",
+        qty: 1,
+        address: "",
+        productId: Number(params.id),
+      },
+    },
+  );
+
+  const submitHandler = (data: Order) => {
+    console.log("Order Data:", data);
+    mutate(data);
+  };
+
+  const qty = watch("qty");
+  const price = useMemo(() => {
+    if (product?.price) {
+      return product.price * qty;
+    }
+    return 0;
+  }, [qty, product?.price]);
+
+  if (isLoading || !product) return <ProductDetailsSkeleton />;
 
   if (isError) {
     return (
@@ -61,7 +126,7 @@ export default function SingleProduct() {
                   </h1>
 
                   <p className="text-2xl font-medium text-[#6B3E2E]">
-                    ${product.price}
+                    ${price || product.price}
                   </p>
                 </div>
 
@@ -69,7 +134,107 @@ export default function SingleProduct() {
 
                 {/* MIDDLE - FORM */}
                 <div className="w-full">
-                  <OrderForm id={params.id} />
+                  <form
+                    id="form-rhf-demo"
+                    onSubmit={handleSubmit(submitHandler)}
+                  >
+                    <FieldGroup>
+                      {/* PINCODE */}
+                      <Controller
+                        name="pincode"
+                        control={control}
+                        render={({ field, fieldState }) => (
+                          <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor="form-rhf-demo-title">
+                              Pincode
+                            </FieldLabel>
+                            <Input
+                              {...field}
+                              type="number"
+                              id="form-rhf-demo-title"
+                              aria-invalid={fieldState.invalid}
+                              placeholder="e.g. 458136"
+                              autoComplete="off"
+                            />
+                            {fieldState.invalid && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
+                      />
+
+                      {/* QTY */}
+                      <Controller
+                        name="qty"
+                        control={control}
+                        render={({ field, fieldState }) => (
+                          <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor="form-rhf-demo-title">
+                              QTY
+                            </FieldLabel>
+                            <Input
+                              {...field}
+                              type="number"
+                              id="form-rhf-demo-title"
+                              aria-invalid={fieldState.invalid}
+                              autoComplete="off"
+                              onChange={(e) => {
+                                const value = parseFloat(e.target.value);
+                                field.onChange(value);
+                              }}
+                            />
+                            {fieldState.invalid && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
+                      />
+
+                      {/* ADDRESS */}
+                      <Controller
+                        name="address"
+                        control={control}
+                        render={({ field, fieldState }) => (
+                          <Field data-invalid={fieldState.invalid}>
+                            <FieldLabel htmlFor="form-rhf-demo-title">
+                              Address
+                            </FieldLabel>
+
+                            <Textarea
+                              {...field}
+                              id="textarea-invalid"
+                              aria-invalid={fieldState.invalid}
+                              placeholder="e.g. Address"
+                              autoComplete="off"
+                            />
+                            {fieldState.invalid && (
+                              <FieldError errors={[fieldState.error]} />
+                            )}
+                          </Field>
+                        )}
+                      />
+                      {session?.user ? (
+                        <Button
+                          size={"lg"}
+                          type="submit"
+                          form="form-rhf-demo"
+                          disabled={isPending}
+                        >
+                          {isPending ? (
+                            <Loader2 className="size-4 animate-spin " />
+                          ) : (
+                            "Buy Now"
+                          )}
+                        </Button>
+                      ) : (
+                        <Link href={`/api/auth/signin?callbackUrl=${pathname}`}>
+                          <Button className="w-full" size={"lg"}>
+                            Buy Now
+                          </Button>
+                        </Link>
+                      )}
+                    </FieldGroup>
+                  </form>
                 </div>
               </CardContent>
             </div>
