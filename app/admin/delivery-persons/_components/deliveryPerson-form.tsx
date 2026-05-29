@@ -37,7 +37,7 @@ const DeliveryPersonForm = ({
     resolver: zodResolver(deliveryPersonSchema),
     defaultValues: {
       name: "",
-      phone: "880",
+      phone: "",
       warehouseId: 0,
     },
   });
@@ -63,7 +63,7 @@ const DeliveryPersonForm = ({
                 {...field}
                 id="form-rhf-demo-title"
                 aria-invalid={fieldState.invalid}
-                placeholder="Name"
+                placeholder="e.g. John Doe"
                 autoComplete="off"
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -83,6 +83,7 @@ const DeliveryPersonForm = ({
                 id="form-rhf-demo-title"
                 aria-invalid={fieldState.invalid}
                 autoComplete="off"
+                placeholder="e.g. 8801785858585"
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
@@ -95,7 +96,7 @@ const DeliveryPersonForm = ({
           render={({ field, fieldState }) => (
             <Field data-invalid={fieldState.invalid}>
               <FieldLabel htmlFor="form-rhf-demo-title">
-                Warehouse Id
+                Warehouse
               </FieldLabel>
 
               <Select
@@ -103,7 +104,7 @@ const DeliveryPersonForm = ({
                 defaultValue={field.value ? field.value.toString() : ""}
               >
                 <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Warehouse ID" />
+                  <SelectValue placeholder="Select Warehouse" />
                 </SelectTrigger>
                 <SelectContent>
                   {isLoading ? (
