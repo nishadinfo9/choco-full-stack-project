@@ -2,7 +2,6 @@ import { ProductSchema } from "@/lib/validators/ProductSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
   Field,

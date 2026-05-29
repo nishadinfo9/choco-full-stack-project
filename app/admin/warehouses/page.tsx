@@ -1,35 +1,35 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { columns } from "./our-colums";
+import { warehouseColumns } from "./our-colums";
 import { useQuery } from "@tanstack/react-query";
-import { getProducts } from "@/http/api";
-import { Product } from "@/types/type";
-import { ProductSheet } from "./product-sheet";
+import { getProducts, getWarehouses } from "@/http/api";
+import { Product, Warehouse } from "@/types/type";
 import { useNewProduct } from "@/store/product/product.store";
 import { Loader2 } from "lucide-react";
 import { DataTable } from "../_components/data-table";
+import { WarehouseSheet } from "./warehouse-sheet";
 
-const ProductPage = () => {
+const WareHouses = () => {
   const { onOpen } = useNewProduct();
 
   const {
-    data: products,
+    data: warehouses,
     isLoading,
     isError,
-  } = useQuery<Product[]>({
-    queryKey: ["products"],
-    queryFn: getProducts,
+  } = useQuery<Warehouse[]>({
+    queryKey: ["warehouses"],
+    queryFn: getWarehouses,
   });
 
   return (
     <>
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold tracking-tight">Products</h2>
+        <h2 className="text-2xl font-bold tracking-tight">Warehouses</h2>
         <Button onClick={onOpen} size={"lg"}>
-          Add Product
+          Add Warehouse
         </Button>
-        <ProductSheet />
+        <WarehouseSheet />
       </div>
 
       {isError && (
@@ -41,10 +41,10 @@ const ProductPage = () => {
           <Loader2 className="size-8 animate-spin" />
         </div>
       ) : (
-        <DataTable columns={columns} data={products || []} />
+        <DataTable columns={warehouseColumns} data={warehouses || []} />
       )}
     </>
   );
 };
 
-export default ProductPage;
+export default WareHouses;
