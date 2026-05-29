@@ -1,12 +1,17 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import ProductDetails from "./_components/ProductDetails";
 import { Product } from "@/types/type";
 import { getSingleProduct } from "@/http/api";
-import { Loader2 } from "lucide-react";
 import { useParams } from "next/navigation";
 import ProductDetailsSkeleton from "./_components/ProductDetailsSkeleton";
+import Container from "@/app/(client)/_components/Container";
+import Image from "next/image";
+import { Card, CardContent } from "@/components/ui/card";
+
+import { Button } from "@/components/ui/button";
+import OrderForm from "./_components/OrderForm";
+import { Separator } from "@/components/ui/separator";
 
 export default function SingleProduct() {
   const params = useParams<{ id: string }>();
@@ -14,16 +19,13 @@ export default function SingleProduct() {
   const {
     data: product,
     isError,
-    isLoading
+    isLoading,
   } = useQuery<Product>({
     queryKey: ["single-product", params.id],
     queryFn: () => getSingleProduct(params.id),
   });
 
-  // const isLoading = true
-
-
-  if (isLoading) return <ProductDetailsSkeleton/>
+  if (isLoading) return <ProductDetailsSkeleton />;
 
   // ❌ Error state (API failed / 404)
   if (isError || !product) {
@@ -33,5 +35,48 @@ export default function SingleProduct() {
       </div>
     );
   }
-  return <ProductDetails product={product} />;
+  return (
+    <section className="flex items-center">
+      <Container>
+        <div className="max-w-5xl mx-auto m-5 flex items-center justify-center">
+          <div className="w-full h-full overflow-hidden rounded-2xl">
+            <div className="grid grid-cols-1 md:grid-cols-2 h-full">
+              {/* IMAGE */}
+              <div className="h-full bg-[#F3E9E1]">
+                <Image
+                  src={`/assets/${product.image}` || "/product1.jpg"}
+                  alt={product.name}
+                  width={900}
+                  height={900}
+                  className="min-w-full md:h-[85vh] object-cover"
+                  priority
+                />
+              </div>
+
+              {/* CONTENT */}
+              <CardContent className="h-full flex flex-col justify-between p-10 space-y-6 text-left">
+                {/* TOP SECTION */}
+                <div className="space-y-3">
+                  <h1 className="text-2xl font-semibold text-[#2B1D16]">
+                    {product.name}
+                  </h1>
+
+                  <p className="text-2xl font-medium text-[#6B3E2E]">
+                    ${product.price}
+                  </p>
+                </div>
+
+                <Separator />
+
+                {/* MIDDLE - FORM */}
+                <div className="w-full">
+                  <OrderForm id={params.id} />
+                </div>
+              </CardContent>
+            </div>
+          </div>
+        </div>
+      </Container>
+    </section>
+  );
 }

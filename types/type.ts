@@ -25,3 +25,10 @@ export interface Inventory {
   warehouseId: number;
   productId: number;
 }
+
+export interface Order {
+  id?: number;
+  pincode: string;
+  qty: number;
+  address: string;
+}
