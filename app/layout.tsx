@@ -7,6 +7,8 @@ import { Toaster } from "sonner";
 import AuthProvider from "@/provider/AuthProvider";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth/authOptions";
+import Header from "./(client)/_components/Header";
+import Footer from "./(client)/_components/Footer";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -39,8 +41,9 @@ export default function RootLayout({
         <QueryProvider>
           <Toaster />
           <AuthProvider session={session}>
-
+            <Header/>
           {children}
+          <Footer/>
           </AuthProvider>
         </QueryProvider>
       </body>

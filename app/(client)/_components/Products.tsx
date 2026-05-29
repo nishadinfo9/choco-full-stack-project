@@ -6,6 +6,7 @@ import ProductCard from "./ProductCard";
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "@/http/api";
 import ProductCardSkeleton from "./ProductCardSkeleton";
+import Link from "next/link";
 
 // const products :Product[] = [
 //   {
@@ -49,16 +50,16 @@ export default function Products() {
         <div className="flex justify-between items-end mb-10">
           <div>
             <h2 className="text-3xl font-semibold text-[#2B1D16]">
-              All Products
+              Chocolates
             </h2>
             <p className="text-[#2B1D16]/60 mt-2">
               Explore our handcrafted chocolate collection
             </p>
           </div>
 
-          <button className="text-sm text-[#6B3E2E] hover:underline">
+          <Link href={'/products'} className="text-sm text-[#6B3E2E] hover:underline">
             View more →
-          </button>
+          </Link>
         </div>
 
         {/* Grid */}

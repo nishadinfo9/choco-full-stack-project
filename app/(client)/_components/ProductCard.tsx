@@ -1,5 +1,6 @@
 import { Product } from "@/types/type";
 import Image from "next/image";
+import Link from "next/link";
 
 
 export default function ProductCard({ product }: {product: Product}) {
@@ -8,6 +9,7 @@ export default function ProductCard({ product }: {product: Product}) {
 
       {/* Image */}
       <div className="aspect-square overflow-hidden bg-[#FAF7F2]">
+        <Link href={`/products/${product.id}`}>
         <Image
           src={`/assets/${product.image}`}
           alt={product.name}
@@ -15,6 +17,7 @@ export default function ProductCard({ product }: {product: Product}) {
           width={500}
           className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
         />
+        </Link>
       </div>
 
       {/* Content */}

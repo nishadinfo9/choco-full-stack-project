@@ -9,14 +9,12 @@ import Products from './_components/Products';
 
 const HomePage = () => {
     return (
-        <div className=''>
-            <Header />
+        <div>     
             <Hero />
             <SpecialProducts />
             <About />
             <Products />
             <NewsLetter />
-            <Footer />
         </div>
     );
 };

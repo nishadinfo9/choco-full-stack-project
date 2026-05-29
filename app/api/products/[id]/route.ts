@@ -20,7 +20,7 @@ export async function GET(
     }
 
     return Response.json(
-      { message: "product found successfully", product: product[0] },
+      product[0],
       { status: 200 },
     );
   } catch (error) {

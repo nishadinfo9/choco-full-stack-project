@@ -15,6 +15,11 @@ export const createProduct = async (data: FormData) => {
   return response.data;
 };
 
+export const getSingleProduct = async (id: string) => {
+  const response = await api.get(`/products/${id}`);
+  return await response.data;
+};
+
 export const getWarehouses = async () => {
   const response = await api.get("/warehouses");
   return await response.data;
