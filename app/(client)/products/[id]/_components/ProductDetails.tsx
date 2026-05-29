@@ -25,7 +25,7 @@ export default function ProductDetails({ product }: { product: Product }) {
               {/* IMAGE */}
               <div className="h-full bg-[#F3E9E1]">
                 <Image
-                  src={`/assets/${product.image}`}
+                  src={`/assets/${product.image}` || '/product1.jpg'}
                   alt={product.name}
                   width={900}
                   height={900}

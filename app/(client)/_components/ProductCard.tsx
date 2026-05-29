@@ -11,7 +11,7 @@ export default function ProductCard({ product }: {product: Product}) {
       <div className="aspect-square overflow-hidden bg-[#FAF7F2]">
         <Link href={`/products/${product.id}`}>
         <Image
-          src={`/assets/${product.image}`}
+          src={`/assets/${product.image}` || '/product1.jpg'}
           alt={product.name}
           height={500}
           width={500}

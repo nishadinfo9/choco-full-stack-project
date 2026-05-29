@@ -6,6 +6,7 @@ import { Product } from "@/types/type";
 import { getSingleProduct } from "@/http/api";
 import { Loader2 } from "lucide-react";
 import { useParams } from "next/navigation";
+import ProductDetailsSkeleton from "./_components/ProductDetailsSkeleton";
 
 export default function SingleProduct() {
   const params = useParams<{ id: string }>();
@@ -13,19 +14,16 @@ export default function SingleProduct() {
   const {
     data: product,
     isError,
-    isLoading,
+    isLoading
   } = useQuery<Product>({
     queryKey: ["single-product", params.id],
     queryFn: () => getSingleProduct(params.id),
   });
 
+  // const isLoading = true
 
-  if (isLoading)
-    return (
-      <div className="flex items-center justify-center">
-        <Loader2 className="h-8 animate-spin" />
-      </div>
-    );
+
+  if (isLoading) return <ProductDetailsSkeleton/>
 
   // ❌ Error state (API failed / 404)
   if (isError || !product) {
