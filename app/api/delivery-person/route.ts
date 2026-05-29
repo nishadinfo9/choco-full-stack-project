@@ -39,10 +39,9 @@ export async function GET() {
         name: deliveryPersons.name,
         phone: deliveryPersons.phone,
         warehouse: warehouses.name,
-       
       })
       .from(deliveryPersons)
-      .leftJoin(warehouses, eq(deliveryPersons.id, warehouses.id))
+      .leftJoin(warehouses, eq(deliveryPersons.warehouseId, warehouses.id))
       .orderBy(desc(deliveryPersons.id));
 
     return Response.json(allDeliveryPersons, { status: 200 });

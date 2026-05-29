@@ -46,7 +46,7 @@ const WarehouseForm = ({
                 {...field}
                 id="form-rhf-demo-title"
                 aria-invalid={fieldState.invalid}
-                placeholder="Name"
+                placeholder="e.g. Warehouse 1"
                 autoComplete="off"
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
@@ -66,6 +66,7 @@ const WarehouseForm = ({
                 id="form-rhf-demo-title"
                 aria-invalid={fieldState.invalid}
                 autoComplete="off"
+                placeholder="e.g. 485932"
               />
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>

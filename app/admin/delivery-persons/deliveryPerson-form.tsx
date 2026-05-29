@@ -11,7 +11,16 @@ import {
 import { Input } from "@/components/ui/input";
 import { Loader2 } from "lucide-react";
 import { deliveryPersonSchema } from "@/lib/validators/DeliveryPersonSchema";
-import { DeliveryPerson } from "@/types/type";
+import { DeliveryPerson, Warehouse } from "@/types/type";
+import { useQuery } from "@tanstack/react-query";
+import { getWarehouses } from "@/http/api";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export type FormValue = z.input<typeof deliveryPersonSchema>;
 
@@ -33,7 +42,13 @@ const DeliveryPersonForm = ({
     },
   });
 
+  const { data: warehouses, isLoading } = useQuery<Warehouse[]>({
+    queryKey: ["warehouses"],
+    queryFn: () => getWarehouses(),
+  });
+
   const submitHandler = (values: FormValue) => {
+    console.log("values", values);
     onSubmit(values);
   };
   return (
@@ -83,17 +98,33 @@ const DeliveryPersonForm = ({
               <FieldLabel htmlFor="form-rhf-demo-title">
                 Warehouse Id
               </FieldLabel>
-              <Input
-                {...field}
-                type="number"
-                id="form-rhf-demo-title"
-                aria-invalid={fieldState.invalid}
-                autoComplete="off"
-                onChange={(e) => {
-                  const value = parseFloat(e.target.value);
-                  field.onChange(value);
-                }}
-              />
+
+              <Select
+                onValueChange={(value) => field.onChange(parseInt(value))}
+                defaultValue={field.value ? field.value.toString() : ""}
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Warehouse ID" />
+                </SelectTrigger>
+                <SelectContent>
+                  {isLoading ? (
+                    <SelectItem value="Loading">Loading...</SelectItem>
+                  ) : (
+                    <>
+                      {warehouses &&
+                        warehouses.map((item) => (
+                          <SelectItem
+                            key={item.id}
+                            value={item.id ? item.id?.toString() : ""}
+                          >
+                            {item.name}
+                          </SelectItem>
+                        ))}
+                    </>
+                  )}
+                </SelectContent>
+              </Select>
+
               {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
             </Field>
           )}

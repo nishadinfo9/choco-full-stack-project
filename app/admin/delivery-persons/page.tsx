@@ -22,7 +22,7 @@ const DeliveryParsons = () => {
     queryFn: getDeliveryPersons,
   });
 
-
+console.log('deliveryPersons',deliveryPersons)
 
   return (
     <>
