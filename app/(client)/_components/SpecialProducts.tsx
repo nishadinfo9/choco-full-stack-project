@@ -1,29 +1,18 @@
+"use client";
+
 import { Product } from "@/types/type";
 import Container from "./Container";
 import ProductCard from "./ProductCard";
-
-const products: Product[] = [
-  {
-    id: 1,
-    name: "Dark Truffle Delight", 
-    image: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c",
-    price: 12,
-  },
-  {
-    id: 2,
-    name: "Velvet Cocoa Bite",
-    image: "https://images.unsplash.com/photo-1548907040-4baa42d10919",
-    price: 10,
-  },
-  {
-    id: 3,
-    name: "Hazelnut Dream",
-    image: "https://images.unsplash.com/photo-1589367920969-ab8e050bbb04",
-    price: 14,
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import { getLetestProducts } from "@/http/api";
+import SpecialProductSkeleton from "./SpecialProductSkeleton";
 
 export default function SpecialProducts() {
+  const { data: products, isLoading } = useQuery<Product[]>({
+    queryKey: ["products", 'letest'],
+    queryFn: () => getLetestProducts({ limit: 3 }),
+  });
+
   return (
     <section className="py-24 bg-white">
       <Container>
@@ -38,7 +27,12 @@ export default function SpecialProducts() {
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product) => (
+          {isLoading &&
+            Array.from({ length: 3}).map((_, i) => (
+              <SpecialProductSkeleton key={i} />
+            ))}
+
+          {products?.map((product: Product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>

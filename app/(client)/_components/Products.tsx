@@ -8,37 +8,10 @@ import { getProducts } from "@/http/api";
 import ProductCardSkeleton from "./ProductCardSkeleton";
 import Link from "next/link";
 
-// const products :Product[] = [
-//   {
-//     id: 1,
-//     name: "Milk Chocolate Classic",
-//     image: "https://images.unsplash.com/photo-1511381939415-e44015466834",
-//     price: 8,
-//   },
-//   {
-//     id: 2,
-//     name: "Dark 70% Cocoa",
-//     image: "https://images.unsplash.com/photo-1612203985729-70726954388c",
-//     price: 9,
-//   },
-//   {
-//     id: 3,
-//     name: "Caramel Crunch Bar",
-//     image: "https://images.unsplash.com/photo-1551024506-0bccd828d307",
-//     price: 11,
-//   },
-//   {
-//     id: 4,
-//     name: "Sea Salt Cocoa",
-//     image: "https://images.unsplash.com/photo-1717239318589-2a2ea6c3401c",
-//     price: 10,
-//   },
-// ];
-
 export default function Products() {
   const { data: products, isLoading } = useQuery({
     queryKey: ["products"],
-    queryFn: getProducts,
+    queryFn:()=> getProducts(),
     staleTime: 10 * 1000,
   });
 

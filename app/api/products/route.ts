@@ -63,12 +63,20 @@ export async function POST(request: Request) {
   );
 }
 
-export async function GET() {
+export async function GET(request: Request) {
+
+  const {searchParams} = new URL(request.url)
+  const limitParams = searchParams.get('limit')
+  const limit =   limitParams ? Number(limitParams) : 10
+
+
   try {
     const allProducts = await db
       .select()
       .from(products)
-      .orderBy(desc(products.id));
+      .orderBy(desc(products.id))
+      .limit(limit)
+      
 
     return Response.json(allProducts, { status: 200 });
   } catch (error) {

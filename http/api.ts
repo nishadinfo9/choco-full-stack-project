@@ -2,7 +2,12 @@ import { DeliveryPerson, Inventory, Warehouse } from "@/types/type";
 import { api } from "./client";
 
 export const getProducts = async () => {
-  const response = await api.get("/products");
+  const response = await api.get('/products');
+  return await response.data;
+};
+
+export const getLetestProducts = async ({limit=10}) => {
+  const response = await api.get(`/products?limit=${limit}`);
   return await response.data;
 };
 
