@@ -48,7 +48,6 @@ const DeliveryPersonForm = ({
   });
 
   const submitHandler = (values: FormValue) => {
-    console.log("values", values);
     onSubmit(values);
   };
   return (

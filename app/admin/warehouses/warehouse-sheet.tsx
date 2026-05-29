@@ -7,14 +7,14 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createWarehouse } from "@/http/api";
 import { toast } from "sonner";
-import { useNewProduct } from "@/store/product/product.store";
 import { Warehouse } from "@/types/type";
 import WarehouseForm from "./warehouse-form";
+import { useNewWarehouse } from "@/store/warehouse/warehouse.store";
 
 export function WarehouseSheet() {
   const queryClient = useQueryClient();
 
-  const { isOpen, onClose } = useNewProduct();
+  const { isOpen, onClose } = useNewWarehouse();
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["create-warehouse"],

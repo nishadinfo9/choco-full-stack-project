@@ -7,14 +7,14 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createDeliveryPerson } from "@/http/api";
 import { toast } from "sonner";
-import { useNewProduct } from "@/store/product/product.store";
 import { DeliveryPerson } from "@/types/type";
 import DeliveryPersonForm from "./deliveryPerson-form";
+import { useNewDeliveryPerson } from "@/store/delivery-person/delivery-person.store";
 
 export function DeliveryPersonSheet() {
   const queryClient = useQueryClient();
 
-  const { isOpen, onClose } = useNewProduct();
+  const { isOpen, onClose } = useNewDeliveryPerson();
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["create-deliveryPerson"],

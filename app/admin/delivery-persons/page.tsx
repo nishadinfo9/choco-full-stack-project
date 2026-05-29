@@ -3,15 +3,15 @@
 import { Button } from "@/components/ui/button";
 import { DeliveryPersonColumns } from "./our-colums";
 import { useQuery } from "@tanstack/react-query";
-import { getDeliveryPersons, getProducts, getWarehouses } from "@/http/api";
-import { DeliveryPerson, Product, Warehouse } from "@/types/type";
-import { useNewProduct } from "@/store/product/product.store";
+import { getDeliveryPersons } from "@/http/api";
+import { DeliveryPerson } from "@/types/type";
 import { Loader2 } from "lucide-react";
 import { DataTable } from "../_components/data-table";
 import { DeliveryPersonSheet } from "./deliveryPerson-sheet";
+import { useNewDeliveryPerson } from "@/store/delivery-person/delivery-person.store";
 
 const DeliveryParsons = () => {
-  const { onOpen } = useNewProduct();
+  const { onOpen } = useNewDeliveryPerson();
 
   const {
     data: deliveryPersons,
@@ -22,7 +22,7 @@ const DeliveryParsons = () => {
     queryFn: getDeliveryPersons,
   });
 
-console.log('deliveryPersons',deliveryPersons)
+  console.log("deliveryPersons", deliveryPersons);
 
   return (
     <>
