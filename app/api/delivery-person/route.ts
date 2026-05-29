@@ -39,15 +39,13 @@ export async function GET() {
         name: deliveryPersons.name,
         phone: deliveryPersons.phone,
         warehouse: warehouses.name,
+       
       })
       .from(deliveryPersons)
       .leftJoin(warehouses, eq(deliveryPersons.id, warehouses.id))
       .orderBy(desc(deliveryPersons.id));
 
-    return Response.json(
-      { message: "get all deliveryPerson successfully", allDeliveryPersons },
-      { status: 200 },
-    );
+    return Response.json(allDeliveryPersons, { status: 200 });
   } catch (error) {
     console.log("failed to get deliveryPerson into database", error);
     return Response.json(

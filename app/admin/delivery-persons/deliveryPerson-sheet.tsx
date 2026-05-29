@@ -5,34 +5,36 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createWarehouse } from "@/http/api";
+import { createDeliveryPerson } from "@/http/api";
 import { toast } from "sonner";
 import { useNewProduct } from "@/store/product/product.store";
-import { Warehouse } from "@/types/type";
-import WarehouseForm from "./warehouse-form";
+import { DeliveryPerson } from "@/types/type";
+import DeliveryPersonForm from "./deliveryPerson-form";
 
-export function WarehouseSheet() {
+export function DeliveryPersonSheet() {
   const queryClient = useQueryClient();
 
   const { isOpen, onClose } = useNewProduct();
 
   const { mutate, isPending } = useMutation({
-    mutationKey: ["create-warehouse"],
-    mutationFn: async (data: Warehouse) => createWarehouse(data),
+    mutationKey: ["create-deliveryPerson"],
+    mutationFn: async (data: DeliveryPerson) => createDeliveryPerson(data),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["warehouses"],
+        queryKey: ["delivery-persons"],
       });
-      toast("warehouse created successfully", { position: "bottom-right" });
+      toast("deliveryPerson created successfully", {
+        position: "bottom-right",
+      });
       onClose();
     },
     onError: (err) => {
       console.log(err);
-      toast("failed to create warehouses", { position: "bottom-right" });
+      toast("failed to create deliveryPerson", { position: "bottom-right" });
     },
   });
 
-  const onSubmit = (formValue: Warehouse) => {
+  const onSubmit = (formValue: DeliveryPerson) => {
     mutate(formValue);
   };
 
@@ -40,8 +42,8 @@ export function WarehouseSheet() {
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle className="text-2xl">Create Warehouse</SheetTitle>
-          <WarehouseForm onSubmit={onSubmit} disabled={isPending} />
+          <SheetTitle className="text-2xl">Create Delivery Person</SheetTitle>
+          <DeliveryPersonForm onSubmit={onSubmit} disabled={isPending} />
         </SheetHeader>
       </SheetContent>
     </Sheet>
