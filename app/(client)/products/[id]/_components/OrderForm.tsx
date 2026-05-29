@@ -17,9 +17,14 @@ import {
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function OrderForm({id}: {id: string}) {
   const queryClient = useQueryClient();
+    const {data: session} = useSession()
+    const pathname = usePathname()
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["create-orders"],
@@ -119,7 +124,9 @@ export default function OrderForm({id}: {id: string}) {
             </Field>
           )}
         />
-        <Button
+       {
+        session?.user ? (
+             <Button
           size={"lg"}
           type="submit"
           form="form-rhf-demo"
@@ -131,6 +138,12 @@ export default function OrderForm({id}: {id: string}) {
             "Buy Now"
           )}
         </Button>
+        ) : (
+            <Link href={`/api/auth/signin?callbackUrl=${pathname}`}>
+            <Button className="w-full" size={'lg'}>Buy Now</Button>
+            </Link>
+        )
+       }
       </FieldGroup>
     </form>
   );

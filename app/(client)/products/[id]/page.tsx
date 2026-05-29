@@ -7,14 +7,13 @@ import { useParams } from "next/navigation";
 import ProductDetailsSkeleton from "./_components/ProductDetailsSkeleton";
 import Container from "@/app/(client)/_components/Container";
 import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
-
-import { Button } from "@/components/ui/button";
+import {  CardContent } from "@/components/ui/card";
 import OrderForm from "./_components/OrderForm";
 import { Separator } from "@/components/ui/separator";
 
 export default function SingleProduct() {
   const params = useParams<{ id: string }>();
+
 
   const {
     data: product,
@@ -27,8 +26,8 @@ export default function SingleProduct() {
 
   if (isLoading) return <ProductDetailsSkeleton />;
 
-  // ❌ Error state (API failed / 404)
-  if (isError || !product) {
+
+  if (isError) {
     return (
       <div className="min-h-screen flex items-center justify-center text-[#2B1D16]">
         Product not found
