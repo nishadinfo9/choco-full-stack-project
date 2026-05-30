@@ -49,7 +49,7 @@ export default function SingleProduct() {
 
   const { mutate, isPending } = useMutation({
     mutationKey: ["create-orders"],
-    mutationFn: () => createOrder(),
+   
 
     onSuccess: () => {
       queryClient.invalidateQueries({
